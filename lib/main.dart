@@ -3,6 +3,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+import './Pages/FirstPage.dart';
+
 void main() {
   runApp(new MaterialApp(
     home: new CoffeeMixData(),
@@ -36,6 +38,36 @@ class CoffeeMixState extends State<CoffeeMixData> {
         title: new Text("CoffeeMix"),
         backgroundColor: new Color(0xFFD7413E),
       ),
+      drawer: new Drawer(
+        child: new ListView(
+          children: <Widget>[
+            new DrawerHeader(
+              child: new Center(child: new Text('CoffeeMix')),
+              decoration: new BoxDecoration(
+                  color: new Color(0xFFD7413E),
+                  image: new DecorationImage(
+                      fit: BoxFit.cover,
+                      image: new NetworkImage(
+                          "http://www.sercanagir.com/nathan-dumlao-493490-unsplash.jpg"))),
+            ),
+            new ListTile(
+                title: new Text("Latteler"),
+                trailing: new Icon(Icons.arrow_forward_ios),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (context) => new FirstPage()),
+                  );
+                }),
+            new ListTile(
+              title: new Text("Mochalar"),
+              trailing: new Icon(Icons.arrow_forward_ios),
+            )
+          ],
+        ),
+      ),
       body: new ListView.builder(
           itemCount: data == null ? 0 : data.length,
           itemBuilder: (BuildContext context, int index) {
@@ -44,6 +76,9 @@ class CoffeeMixState extends State<CoffeeMixData> {
               child: new Column(
                 children: <Widget>[
                   new Image.network(data[index]["coffeeImg"]),
+                  new Container(
+                    height: 8.0,
+                  ),
                   new Text(data[index]["coffeeName"],
                       style: new TextStyle(
                           fontSize: 18.0, fontWeight: FontWeight.bold)),
