@@ -1,4 +1,4 @@
-# coffeemix
+# Coffeemix
 
 A new Flutter project.
 
