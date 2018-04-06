@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'package:flutter/services.dart';
+import '../extensions/Coffee.dart';
+import 'DetailPage.dart';
 
 void main() {
   runApp(new MaterialApp(
@@ -16,47 +16,59 @@ class LatteData extends StatefulWidget {
 
 class CoffeeMixState extends State<LatteData> {
   final String url = "http://www.sercanagir.com/Coffee.json";
-  List data;
+  List<Coffee> _coffee = [];
 
-  Future<String> getJson() async {
-    var res = await http
-        .get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
+  _loadCoffees() async {
+    String response = await createHttpClient().read(url);
 
     setState(() {
-      data = json.decode(res.body);
+      _coffee = Coffee.allFromResponse(response);
     });
-
-    return "Succees";
   }
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       body: new ListView.builder(
-          itemCount: data == null ? 0 : data.length,
+          itemCount: _coffee == null ? 0 : _coffee.length,
           itemBuilder: (BuildContext context, int index) {
+            Coffee lattes = _coffee[index];
+
             return new Container(
-              padding: new EdgeInsets.only(left: 10.0, right: 10.0, top: 5.0),
+              padding: new EdgeInsets.only(
+                  left: 10.0, right: 10.0, top: 10.0, bottom: 3.0),
               child: new Column(
                 children: <Widget>[
                   new Container(
-                    child: new Center(
-                      child: new Text(data[index]["coffeeName"],
+                    child: new GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _navigateToFriendDetails(lattes);
+                        });
+                      },
+                      child: new Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: new Text(
+                          lattes.coffeeName,
+                          maxLines: 2,
                           style: new TextStyle(
                               fontFamily: 'Avenir Next',
                               fontSize: 40.0,
                               color: Colors.white,
-                              fontWeight: FontWeight.w600)),
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
                     ),
                     height: 340.0,
+                    width: 375.0,
                     decoration: new BoxDecoration(
-                      color: const Color(0xff7c94b6),
+                      color: Colors.white,
                       image: new DecorationImage(
-                        image: new NetworkImage(data[index]["coffeeImg"]),
+                        image: new NetworkImage(lattes.coffeeImg),
                         fit: BoxFit.cover,
                       ),
                       borderRadius:
-                          new BorderRadius.all(new Radius.circular(15.0)),
+                          new BorderRadius.all(new Radius.circular(20.0)),
                       boxShadow: [
                         new BoxShadow(
                             color: Colors.black45,
@@ -68,7 +80,6 @@ class CoffeeMixState extends State<LatteData> {
                   new Container(
                     height: 8.0,
                   ),
-                  new Divider()
                 ],
               ),
             );
@@ -76,9 +87,19 @@ class CoffeeMixState extends State<LatteData> {
     );
   }
 
+  _navigateToFriendDetails(Coffee coffee) {
+    Navigator.of(context).push(
+      new MaterialPageRoute(
+        builder: (c) {
+          return new CoffeDetailPage(coffee);
+        },
+      ),
+    );
+  }
+
   @override
   void initState() {
     super.initState();
-    this.getJson();
+    _loadCoffees();
   }
 }
