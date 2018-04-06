@@ -5,16 +5,16 @@ import 'DetailPage.dart';
 
 void main() {
   runApp(new MaterialApp(
-    home: new LatteData(),
+    home: new SmoothieData(),
   ));
 }
 
-class LatteData extends StatefulWidget {
+class SmoothieData extends StatefulWidget {
   @override
   CoffeeMixState createState() => new CoffeeMixState();
 }
 
-class CoffeeMixState extends State<LatteData> {
+class CoffeeMixState extends State<SmoothieData> {
   final String url = "http://www.sercanagir.com/Coffee.json";
   List<Coffee> _coffee = [];
 
@@ -36,7 +36,7 @@ class CoffeeMixState extends State<LatteData> {
     return new ListView.builder(
         itemCount: _coffee == null ? 0 : _coffee.length,
         itemBuilder: (BuildContext context, int index) {
-          Coffee lattes = _coffee[index];
+          Coffee smoothies = _coffee[index];
 
           return new Container(
             padding: new EdgeInsets.only(
@@ -47,13 +47,13 @@ class CoffeeMixState extends State<LatteData> {
                   child: new GestureDetector(
                     onTap: () {
                       setState(() {
-                        _navigateToFriendDetails(lattes);
+                        _navigateToFriendDetails(smoothies);
                       });
                     },
                     child: new Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: new Text(
-                        lattes.coffeeName,
+                        smoothies.coffeeName,
                         maxLines: 2,
                         style: new TextStyle(
                             fontFamily: 'Avenir Next',
@@ -68,7 +68,7 @@ class CoffeeMixState extends State<LatteData> {
                   decoration: new BoxDecoration(
                     color: Colors.white,
                     image: new DecorationImage(
-                      image: new NetworkImage(lattes.coffeeImg),
+                      image: new NetworkImage(smoothies.coffeeImg),
                       fit: BoxFit.cover,
                     ),
                     borderRadius:

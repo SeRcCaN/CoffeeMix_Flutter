@@ -1,8 +1,9 @@
-# Coffeemix
+# Coffeemix - Flutter
+
+![Screenshot](ios.jpg) ![Screenshot](Android.jpg)
 
 A new Flutter project.
 
-## Getting Started
+## For Swift Version
 
-For help getting started with Flutter, view our online
-[documentation](https://flutter.io/).
+<a href="https://github.com/SeRcCaN/CoffeeMix">CoffeeMix Swift</a>

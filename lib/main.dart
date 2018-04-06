@@ -1,3 +1,6 @@
+import 'package:coffeemix/Pages/Milkshake.dart';
+import 'package:coffeemix/Pages/Mocha.dart';
+import 'package:coffeemix/Pages/Smoothie.dart';
 import 'package:flutter/material.dart';
 import './pages/Latte.dart';
 
@@ -65,10 +68,9 @@ class CoffeMix extends StatelessWidget {
           body: new TabBarView(
             children: [
               new LatteData(),
-              //new Icon(Icons.directions_transit),
-              new Icon(Icons.directions_transit),
-              new Icon(Icons.directions_bike),
-              new Icon(Icons.directions_boat),
+              new MochaData(),
+              new MilkshakeData(),
+              new SmoothieData(),
             ],
           ),
         ),
